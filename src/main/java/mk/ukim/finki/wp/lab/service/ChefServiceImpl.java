@@ -8,6 +8,7 @@ import mk.ukim.finki.wp.lab.repository.ChefRepository;
 import mk.ukim.finki.wp.lab.repository.DishRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,17 @@ public class ChefServiceImpl implements ChefService {
         if (chef == null || dish == null) { return null;}
         chef.getDishes().add(dish);
         chefRepository.save(chef);
+        return chef;
+    }
+
+    @Override
+    public Chef addChefReview(long chefId, String review) {
+        Chef chef = findById(chefId);
+        if (chef.getReviews() == null) { chef.setReviews(new ArrayList<>()); }
+
+        if (review != null) {
+            chef.getReviews().add(review);
+        }
         return chef;
     }
 }

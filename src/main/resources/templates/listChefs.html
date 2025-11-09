@@ -24,6 +24,7 @@
     <div th:each="chef : ${chefs}">
       <input type="radio" name="chefId" th:value="${chef.id}" id="chef__${chef.id}">
       <label th:for="'chef__' + ${chef.id}" th:text="'Name: ' + ${chef.firstName} + ' ' + ${chef.lastName} + ', Bio: ' + ${chef.bio}"></label>
+      <a th:href="'/chefReview?chefId=' + ${chef.getId()}">Review</a>
       <br/>
     </div>
     <input type="submit" value="Submit">

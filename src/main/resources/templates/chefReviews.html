@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chef Reviews</title>
+</head>
+<body>
+  <h1 th:text="'Chef name: ' + ${chef.getFirstName()} + ' ' + ${chef.getLastName()}"> </h1>
+  <form action="/chefReview" method="POST">
+    <input type="text" name="reviewChefs">
+    <input type="hidden" name="chefId" th:value="${chef.getId()}">
+    <input type="submit" value="Submit">
+  </form>
+
+<ul>
+  <li th:each="r : ${reviews}" th:text="${r}"></li>
+</ul>
+</body>
+</html>
