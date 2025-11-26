@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/dishes")
@@ -19,11 +21,31 @@ public class DishController {
     }
 
     @GetMapping
-    public String getDishesPage(@RequestParam(required = false) String error, Model model){
+    public String getDishesPage(@RequestParam(required = false) String error,
+                                @RequestParam(required = false) String sortBy,
+                                @RequestParam(required = false) Integer minPrepTime,
+                               Model model){
         if(error != null){
             model.addAttribute("error", error);
         }
-        model.addAttribute("dishes",dishService.listDishes());
+
+        // --- Sorting Logic ---
+        List<Dish> dishes;
+        if (minPrepTime != null) {
+            // If the user provided a minimum preparation time, filter the dishes
+            dishes = dishService.filterByMinPrepTime(minPrepTime);
+
+        } else if ("chef".equals(sortBy)) {
+            // Existing sort by chef logic
+            dishes = dishService.listDishesSortedByChef();
+
+        } else {
+            // Default list
+            dishes = dishService.listDishes();
+        }
+
+        model.addAttribute("dishes",dishes);
+        model.addAttribute("minPrepTime", minPrepTime);
         return "listDishes";
     }
 

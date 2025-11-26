@@ -40,6 +40,7 @@ public class ChefServiceImpl implements ChefService {
         Chef chef = findById(chefId);
         Dish dish = dishRepository.findByDishId(dishId);
         if (chef == null || dish == null) { return null;}
+        dish.setChef(chef);
         chef.getDishes().add(dish);
         chefRepository.save(chef);
         return chef;

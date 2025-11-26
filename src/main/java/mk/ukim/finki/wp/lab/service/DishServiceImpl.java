@@ -4,7 +4,9 @@ import mk.ukim.finki.wp.lab.model.Dish;
 import mk.ukim.finki.wp.lab.repository.DishRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DishServiceImpl implements DishService {
@@ -33,6 +35,32 @@ public class DishServiceImpl implements DishService {
     public Dish create(String dishId, String name, String cuisine, int preparationTime) {
         Dish newDish = new Dish(dishId, name, cuisine, preparationTime);
         return dishRepository.save(newDish);
+    }
+
+    @Override
+    public List<Dish> filterByMinPrepTime(int minPrepTime) {
+        return this.dishRepository.findAll().stream()
+
+                // FILTER: Keep only dishes where preparationTime is greater than or equal to minPrepTime (X)
+                .filter(dish -> dish.getPreparationTime() >= minPrepTime)
+
+                .collect(Collectors.toList());
+    }
+
+
+    // *** NEW METHOD FOR ORDERING/SORTING ***
+    @Override
+    public List<Dish> listDishesSortedByChef() {
+        return this.dishRepository.findAll().stream()
+                .sorted(Comparator.comparing(dish -> {
+                    // Check for null chef (dishes not yet assigned) and use a default empty string
+                    if (dish.getChef() == null) {
+                        return "";
+                    }
+                    // Sort primarily by Chef's last name, then first name for consistency
+                    return dish.getChef().getLastName() + dish.getChef().getFirstName();
+                }))
+                .collect(Collectors.toList());
     }
 
     @Override

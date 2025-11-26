@@ -1,42 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>List Dishes</title>
     <style>
-        .dish-item{
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        .actions{
-            display: flex;
-            gap: 10px;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
         }
-        .dish-info{
-            display: flex;
-            gap:15px;
-            align-items: center;
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
 <h3>Listing all dishes: </h3>
-    <div th:each="dish : ${dishes}" class="dish-item">
-        <div class="dish-info">
-            <h3 th:text="'Name: ' + ${dish.name}"></h3>
-            <p th:text="'Cuisine: ' + ${dish.cuisine}">Cuisine: </p>
-        </div>
-        <div class="actions">
+
+<p>
+    <a th:href="@{/dishes(sortBy='chef')}">
+        <button type="button">Order Dishes by Chef</button>
+    </a>
+</p>
+<hr/>
+
+<table>
+    <thead>
+    <tr>
+        <th>Dish ID</th>
+        <th>Dish Name</th>
+        <th>Cuisine</th>
+        <th>Chef Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dish : ${dishes}">
+        <td th:text="${dish.dishId}">4</td>
+
+        <td th:text="${dish.name}">Margherita Pizza</td>
+
+        <td th:text="${dish.cuisine}">Italian</td>
+
+        <td>
+                <span th:if="${dish.chef != null}"
+                      th:text="${dish.chef.firstName} + ' ' + ${dish.chef.lastName}">Jamie Oliver</span>
+            <span th:unless="${dish.chef != null}" style="color: gray;">(Unassigned)</span>
+        </td>
+
+        <td>
             <a th:href="@{/dishes/edit/{id}(id=${dish.id})}">
                 <button type="button">Editiraj</button>
             </a>
-        </div>
-        <div class="actions">
-            <form th:method="POST" th:action="@{/dishes/delete/{id}(id=${dish.id})}">
+            <form th:method="POST" th:action="@{/dishes/delete/{id}(id=${dish.id})}" style="display: inline;">
                 <button type="submit">Избриши</button>
             </form>
-        </div>
-    </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
