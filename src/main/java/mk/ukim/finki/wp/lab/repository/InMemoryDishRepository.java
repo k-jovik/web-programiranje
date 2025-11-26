@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.xml.crypto.Data;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -20,6 +21,28 @@ public class InMemoryDishRepository implements DishRepository {
     public Dish findByDishId(String dishId) {
         return DataHolder.dishes.stream().filter(dish -> dish.getDishId().equals(dishId)).findFirst().orElse(null);
     }
+
+    @Override
+    public Optional<Dish> findById(Long id) {
+        return DataHolder.dishes.stream().filter(dish -> dish.getId().equals(id)).findFirst();
+    }
+
+    @Override
+    public Dish save(Dish dish) {
+        if (dish.getDishId() != null) {
+            DataHolder.dishes.removeIf(dish1 -> dish1.getDishId().equals(dish.getDishId()));
+            DataHolder.dishes.add(dish);
+            return dish;
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        DataHolder.dishes.removeIf(dish -> dish.getId().equals(id));
+    }
+
+
 
 
 }

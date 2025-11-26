@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Dishes</title>
+    <style>
+        .dish-item{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .actions{
+            display: flex;
+            gap: 10px;
+        }
+        .dish-info{
+            display: flex;
+            gap:15px;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<h3>Listing all dishes: </h3>
+    <div th:each="dish : ${dishes}" class="dish-item">
+        <div class="dish-info">
+            <h3 th:text="'Name: ' + ${dish.name}"></h3>
+            <p th:text="'Cuisine: ' + ${dish.cuisine}">Cuisine: </p>
+        </div>
+        <div class="actions">
+            <a th:href="@{/dishes/edit/{id}(id=${dish.id})}">
+                <button type="button">Editiraj</button>
+            </a>
+        </div>
+        <div class="actions">
+            <form th:method="POST" th:action="@{/dishes/delete/{id}(id=${dish.id})}">
+                <button type="submit">Избриши</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
