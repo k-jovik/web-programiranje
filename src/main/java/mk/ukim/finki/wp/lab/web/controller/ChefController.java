@@ -36,6 +36,7 @@ public class ChefController {
                            @RequestParam String bio,
                            Model model) {
         Chef chef = chefService.create(firstName, lastName, bio);
+        model.addAttribute("chef",chef);
         return "redirect:/chefs";
     }
 

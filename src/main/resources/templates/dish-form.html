@@ -22,9 +22,11 @@
   <label for="preparationTime">Време за подготовка (мин):</label>
   <input type="number" id="preparationTime" name="preparationTime" th:value="${dish != null ? dish.preparationTime : ''}" required><br><br>
 
-<!--  <select name="chefId">-->
-<!--    <option th:each="chef : ${chefs}" th:value="${chef.id}" th:text="${chef.firstName + ' ' + chef.lastName}"></option>-->
-<!--  </select>-->
+
+  
+  <select name="chefId">
+    <option th:each="chef : ${chefs}" th:value="${chef.id}" th:text="${chef.firstName + ' ' + chef.lastName}"></option>
+  </select>
 
   <button type="submit">Зачувај Јадење</button>
 </form>
