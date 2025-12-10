@@ -8,7 +8,7 @@
 <h2>Внеси детали за ново јадење</h2>
 
 <form th:method="post"
-      th:action="@{${dish != null} ? '/dishes/edit/' + ${dish.id} : '/dishes'}">
+      th:action="@{${dish != null} ? '/dishes/edit/' + ${dish.id} : '/dishes/add'}">
 
   <label for="dishId">ID на јадењето:</label>
   <input type="text" id="dishId" name="dishId" th:value="${dish != null ? dish.id : ''}"><br><br>
@@ -21,6 +21,10 @@
 
   <label for="preparationTime">Време за подготовка (мин):</label>
   <input type="number" id="preparationTime" name="preparationTime" th:value="${dish != null ? dish.preparationTime : ''}" required><br><br>
+
+<!--  <select name="chefId">-->
+<!--    <option th:each="chef : ${chefs}" th:value="${chef.id}" th:text="${chef.firstName + ' ' + chef.lastName}"></option>-->
+<!--  </select>-->
 
   <button type="submit">Зачувај Јадење</button>
 </form>

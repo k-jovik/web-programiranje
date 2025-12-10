@@ -20,11 +20,35 @@
 </header>
 <main>
   <h2>Choose a chef:</h2>
+<!--  <form action="/dish" method="POST">-->
+<!--    <div th:each="chef : ${chefs}">-->
+<!--      <input type="radio" name="chefId" th:value="${chef.id}" id="chef__${chef.id}">-->
+<!--      <label th:for="'chef__' + ${chef.id}" th:text="'Name: ' + ${chef.firstName} + ' ' + ${chef.lastName} + ', Bio: ' + ${chef.bio}"></label>-->
+<!--      <a th:href="'/chefReview?chefId=' + ${chef.getId()}">Review</a>-->
+
+<!--      &lt;!&ndash; DELETE BUTTON &ndash;&gt;-->
+<!--      <form th:action="@{'/chefs/delete/' + ${chef.id}}" method="POST" style="display:inline">-->
+<!--        <button type="submit">Delete</button>-->
+<!--      </form>-->
+
+
+<!--      <br/>-->
+<!--    </div>-->
+<!--    <input type="submit" value="Submit">-->
+<!--  </form>-->
+
+  <div th:each="chef : ${chefs}">
+    <label th:text="'Name: ' + ${chef.firstName} + ' ' + ${chef.lastName} + ', Bio: ' + ${chef.bio}"></label>
+    <a th:href="'/chefReview?chefId=' + ${chef.getId()}">Review</a>
+
+    <form th:action="@{/chefs/delete/{id}(id=${chef.id})}" method="POST" style="display:inline">
+      <button type="submit">Delete</button>
+    </form>
+    <br/>
+  </div>
+
   <form action="/dish" method="POST">
     <div th:each="chef : ${chefs}">
-      <input type="radio" name="chefId" th:value="${chef.id}" id="chef__${chef.id}">
-      <label th:for="'chef__' + ${chef.id}" th:text="'Name: ' + ${chef.firstName} + ' ' + ${chef.lastName} + ', Bio: ' + ${chef.bio}"></label>
-      <a th:href="'/chefReview?chefId=' + ${chef.getId()}">Review</a>
       <br/>
     </div>
     <input type="submit" value="Submit">

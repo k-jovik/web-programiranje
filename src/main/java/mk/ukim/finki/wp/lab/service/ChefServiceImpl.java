@@ -40,8 +40,9 @@ public class ChefServiceImpl implements ChefService {
         Chef chef = findById(chefId);
         Dish dish = dishRepository.findByDishId(dishId);
         if (chef == null || dish == null) { return null;}
-        dish.setChef(chef);
         chef.getDishes().add(dish);
+        dish.setChef(chef);
+        dishRepository.save(dish);
         chefRepository.save(chef);
         return chef;
     }
@@ -56,4 +57,17 @@ public class ChefServiceImpl implements ChefService {
         }
         return chef;
     }
+
+    @Override
+    public Chef create(String firstName, String lastName, String bio) {
+        Chef chef = new Chef(firstName, lastName, bio);
+        chefRepository.save(chef);
+        return chef;
+    }
+
+    @Override
+    public void delete(Long id) {
+        chefRepository.deleteById(id);
+    }
+
 }

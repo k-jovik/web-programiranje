@@ -9,4 +9,6 @@ public interface ChefService {
     Chef findById(Long id);
     Chef addDishToChef(Long chefId, String dishId);
     Chef addChefReview(long chefId, String review);
+    Chef create(String firstName,String lastName, String bio);
+    void delete(Long id);
 }

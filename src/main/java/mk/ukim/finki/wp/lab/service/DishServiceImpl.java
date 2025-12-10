@@ -1,5 +1,6 @@
 package mk.ukim.finki.wp.lab.service;
 
+import mk.ukim.finki.wp.lab.model.Chef;
 import mk.ukim.finki.wp.lab.model.Dish;
 import mk.ukim.finki.wp.lab.repository.DishRepository;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,13 @@ public class DishServiceImpl implements DishService {
         Dish newDish = new Dish(dishId, name, cuisine, preparationTime);
         return dishRepository.save(newDish);
     }
+
+    @Override
+    public Dish create(Long id, String name, String cuisine, int preparationTime, Chef chef) {
+        Dish newDish = new Dish(id,name, name, cuisine, preparationTime,chef);
+        return dishRepository.save(newDish);
+    }
+
 
     @Override
     public List<Dish> filterByMinPrepTime(int minPrepTime) {

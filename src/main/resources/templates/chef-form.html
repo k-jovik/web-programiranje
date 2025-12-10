@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Chef</title>
+  <style>
+    body {
+      width: 800px;
+      margin: auto;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 300px;
+      padding: 6px;
+      margin-top: 5px;
+    }
+    textarea {
+      height: 80px;
+    }
+    .btn {
+      margin-top: 15px;
+      padding: 8px 14px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Add New Chef</h1>
+
+<form th:action="@{/chefs/add}" method="post">
+
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" name="firstName" required />
+
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" name="lastName" required />
+
+  <label for="bio">Bio:</label>
+  <textarea id="bio" name="bio" required></textarea>
+
+  <button type="submit" class="btn">Save Chef</button>
+</form>
+
+</body>
+</html>

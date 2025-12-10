@@ -58,7 +58,7 @@ public class DishController {
 
     @PostMapping("/add")
     public String saveDish(@RequestParam String dishId, @RequestParam String name, @RequestParam String cuisine,
-                           @RequestParam int preparationTime){
+                           @RequestParam int preparationTime,  @RequestParam(required = false) Long id){
         this.dishService.create(dishId, name, cuisine, preparationTime);
         return "redirect:/dishes";
     }
@@ -79,4 +79,5 @@ public class DishController {
         }
         return "redirect:/dishes?error=DishNotFound";
     }
+
 }
