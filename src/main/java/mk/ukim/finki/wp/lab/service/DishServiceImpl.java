@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.lab.service;
 
 import mk.ukim.finki.wp.lab.model.Chef;
 import mk.ukim.finki.wp.lab.model.Dish;
+import mk.ukim.finki.wp.lab.repository.ChefRepository;
 import mk.ukim.finki.wp.lab.repository.DishRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class DishServiceImpl implements DishService {
     private final DishRepository dishRepository;
-    public DishServiceImpl(DishRepository dishRepository) {
+    private final ChefRepository chefRepository;
+
+    public DishServiceImpl(DishRepository dishRepository, ChefRepository chefRepository) {
         this.dishRepository = dishRepository;
+        this.chefRepository = chefRepository;
     }
 
     @Override
@@ -55,6 +59,19 @@ public class DishServiceImpl implements DishService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Dish> filterByChefName(String chefFirstName, String chefLastName) {
+        return this.dishRepository.findByChefFirstNameContainingIgnoreCaseOrChefLastNameContainingIgnoreCase(
+                chefFirstName,
+                chefLastName
+        );
+    }
+
+    @Override
+    public List<Dish> filterByCuisine(String cuisine) {
+        return this.dishRepository.findByCuisineContainingIgnoreCase(cuisine);
+    }
+
 
     // *** NEW METHOD FOR ORDERING/SORTING ***
     @Override
@@ -72,13 +89,17 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public Dish update(Long id, String dishId, String name, String cuisine, int preparationTime) {
+    public Dish update(Long id, String dishId, String name, String cuisine, int preparationTime,Long chefId) {
         Dish existingDish = dishRepository.findById(id).orElse(null);
         if (existingDish != null) {
             existingDish.setDishId(dishId);
             existingDish.setName(name);
             existingDish.setCuisine(cuisine);
             existingDish.setPreparationTime(preparationTime);
+            Chef chef = chefRepository.findById(chefId).orElse(null);
+            if (chef != null) {
+                existingDish.setChef(chef);
+            }
         }
         return dishRepository.save(existingDish);
     }

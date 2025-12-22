@@ -26,8 +26,9 @@ public class DishController {
 
     @GetMapping
     public String getDishesPage(@RequestParam(required = false) String error,
-                                @RequestParam(required = false) String sortBy,
+                                @RequestParam(required = false) String chefSearchTerm,
                                 @RequestParam(required = false) Integer minPrepTime,
+                                @RequestParam(required = false) String cuisine,
                                Model model){
         if(error != null){
             model.addAttribute("error", error);
@@ -40,18 +41,21 @@ public class DishController {
         if (minPrepTime != null) {
             // If the user provided a minimum preparation time, filter the dishes
             dishes = dishService.filterByMinPrepTime(minPrepTime);
-
-        } else if ("chef".equals(sortBy)) {
+        } else if (chefSearchTerm != null &&  !chefSearchTerm.isEmpty()) {
             // Existing sort by chef logic
-            dishes = dishService.listDishesSortedByChef();
-
-        } else {
+            String term = chefSearchTerm.trim();
+            dishes = dishService.filterByChefName(term,term);
+        } else if (cuisine != null && !cuisine.isEmpty()) {
+            // Filter by cuisine
+            dishes = dishService.filterByCuisine(cuisine);
+        }else {
             // Default list
             dishes = dishService.listDishes();
         }
 
         model.addAttribute("dishes",dishes);
         model.addAttribute("minPrepTime", minPrepTime);
+        model.addAttribute("chefSearchTerm", chefSearchTerm);
         return "listDishes";
     }
 
@@ -86,8 +90,8 @@ public class DishController {
 
     @PostMapping("/edit/{id}")
     public String editDish(@PathVariable Long id, @RequestParam String dishId, @RequestParam String name,
-                           @RequestParam String cuisine, @RequestParam int preparationTime){
-        this.dishService.update(id, dishId, name, cuisine, preparationTime);
+                           @RequestParam String cuisine, @RequestParam int preparationTime,@RequestParam Long chefId){
+        this.dishService.update(id, dishId, name, cuisine, preparationTime,chefId);
         return "redirect:/dishes";
     }
 
@@ -96,9 +100,16 @@ public class DishController {
         Dish dishToEdit = this.dishService.findById(id);
         if (dishToEdit != null){
             model.addAttribute("dish", dishToEdit);
+            model.addAttribute("chefs", chefService.listChefs());
             return "dish-form";
         }
         return "redirect:/dishes?error=DishNotFound";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteDish(@PathVariable Long id){
+        this.dishService.delete(id);
+        return "redirect:/dishes";
     }
 
 }

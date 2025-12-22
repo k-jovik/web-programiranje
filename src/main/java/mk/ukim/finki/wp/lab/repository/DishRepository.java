@@ -8,6 +8,12 @@ import java.util.Optional;
 
 public interface DishRepository extends JpaRepository<Dish, Long> {
 
+    List<Dish> findByChefFirstNameContainingIgnoreCase(String text);
+
+    List<Dish> findByChefFirstNameContainingIgnoreCaseOrChefLastNameContainingIgnoreCase(String firstName,String lastName);
+
+    List<Dish> findByCuisineContainingIgnoreCase(String text);
+
     Dish findByDishId(String dishId);
     List<Dish> findAllByChef_Id(Long chefId);
 }

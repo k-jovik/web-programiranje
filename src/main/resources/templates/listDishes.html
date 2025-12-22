@@ -22,11 +22,36 @@
 <body>
 <h3>Listing all dishes: </h3>
 
-<p>
-    <a th:href="@{/dishes(sortBy='chef')}">
-        <button type="button">Order Dishes by Chef</button>
-    </a>
-</p>
+<form action="/dishes" method="GET" style="margin-bottom: 20px;">
+    <label for="chefSearchTerm">Search Dishes by Chef Name:</label>
+    <input type="text"
+           id="chefSearchTerm"
+           name="chefSearchTerm"
+           placeholder="Enter chef's name..."
+           th:value="${chefSearchTerm}"> <button type="submit">🔍 Search</button>
+
+    <a th:href="@{/dishes}" style="margin-left: 10px;">Clear Filter</a>
+</form>
+
+<form action="/dishes" method="GET" style="margin-bottom: 20px;">
+    <label for="minPrepTime">Min Preparation Time (minutes):</label>
+    <input type="number"
+           id="minPrepTime"
+           name="minPrepTime"
+           placeholder="e.g. 15"
+           th:value="${minPrepTime}">
+
+    <button type="submit">Filter by Time</button>
+</form>
+<form action="/dishes" method="GET" style="margin-bottom: 20px;">
+    <label for="cuisine">Filter By Cuisine</label>
+    <input type="text"
+    name="cuisine"
+    id="cuisine"
+    th:value="${cuisine}"
+    >
+    <button type="submit">Search</button>
+</form>
 <hr/>
 
 <table>
@@ -41,15 +66,15 @@
     </thead>
     <tbody>
     <tr th:each="dish : ${dishes}">
-        <td th:text="${dish.dishId}">4</td>
+        <td th:text="${dish.dishId}"></td>
 
-        <td th:text="${dish.name}">Margherita Pizza</td>
+        <td th:text="${dish.name}"></td>
 
-        <td th:text="${dish.cuisine}">Italian</td>
+        <td th:text="${dish.cuisine}"></td>
 
         <td>
                 <span th:if="${dish.chef != null}"
-                      th:text="${dish.chef.firstName} + ' ' + ${dish.chef.lastName}">Jamie Oliver</span>
+                      th:text="${dish.chef.firstName} + ' ' + ${dish.chef.lastName}"></span>
             <span th:unless="${dish.chef != null}" style="color: gray;">(Unassigned)</span>
         </td>
 

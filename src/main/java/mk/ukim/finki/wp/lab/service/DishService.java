@@ -11,8 +11,11 @@ public interface DishService {
     Dish findById(Long id);
     Dish create(String dishId, String name, String cuisine, int preparationTime);
     Dish create (Long id, String name, String cuisine, int preparationTime, Chef chef);
-    Dish update(Long id, String dishId, String name, String cuisine, int preparationTime);
+    Dish update(Long id, String dishId, String name, String cuisine, int preparationTime, Long chefId);
     void delete(Long id);
     List<Dish> listDishesSortedByChef();
     List<Dish> filterByMinPrepTime(int minPrepTime);
+    List<Dish> filterByChefName(String chefFirstName, String chefLastName);
+    List<Dish> filterByCuisine(String cuisine);
+
 }
